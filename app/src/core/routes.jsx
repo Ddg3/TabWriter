@@ -13,12 +13,16 @@ const Motd = loadable(() =>
 const ContextMenu = loadable(() =>
   import(/* webpackChunkName: "ContextMenuChunk" */ "Pages/contextmenu/contextmenu")
 );
+const Tab = loadable(() =>
+  import("Pages/tab/tab")
+);
 
 class Routes extends React.Component {
   render() {
     return (
       <Switch>
-        <Route exact path={ROUTES.WELCOME} component={Welcome}></Route>
+        <Route exact path={ROUTES.TAB} component={Tab}></Route>
+        <Route path={ROUTES.WELCOME} component={Welcome}></Route>
         <Route path={ROUTES.MOTD} component={Motd}></Route>
         <Route path={ROUTES.CONTEXTMENU} component={ContextMenu}></Route>
       </Switch>
