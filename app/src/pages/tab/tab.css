@@ -1,0 +1,11 @@
+.input-container {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(6, 1fr);
+  }
+  
+  .input-field{
+    font-family: "Arial", sans-serif;
+    padding: .6rem;
+    text-decoration: none;
+  }

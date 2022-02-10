@@ -1,74 +1,42 @@
 import React from "react";
 import ROUTES from "Constants/routes";
 import { Link } from "react-router-dom";
+import "./tab.css";
 
 class Tab extends React.Component {
     constructor(props) {
-        super(props);
-    
-        this.state = {
-          message: "",
-        };
-        this.onChangeMessage = this.onChangeMessage.bind(this);
-        this.onSubmitMessage = this.onSubmitMessage.bind(this);
-    }
-    
-    onChangeMessage(event) {
-        const { value } = event.target;
-        this.setState((state) => ({
-          message: value,
-        }));
-      }
-    
-      onSubmitMessage(event) {
-        event.preventDefault(); // prevent navigation
-        this.props.changeMessage(this.state.message); // update redux store
-
-        // reset
-        this.setState((state) => ({
-          message: "",
-        }));
+      super(props);
+      this.state = { inputs: ["inputs-0", "inputs-1", "inputs-2", "inputs-3", "inputs-4", "inputs-5"] };
     }
 
     render() {
     return (
       <React.Fragment>
         <section className="section">
-          <div className="container">
-            <section className="hero is-info">
-              <div className="hero-body">
-                <p className="title">
-                  AAAAAAAAAAAA!
-                </p>
-                <p className="subtitle">
-                  Please navigate to view the features of this template.
-                </p>
-              </div>
-            </section>
+          <div className="input-container">
+          {
+            this.state.inputs.map(() =>
+                <div className="input-field">
+                  <input type="number"></input>
+                </div>
+            )
+          }
           </div>
-        </section>
-        <section className="section">
-          <div className="container">
-            <form className="mb-4" onSubmit={this.onSubmitMessage}>
-              <div className="field is-horizontal">
-                <input
-                  placeholder="New message of the day"
-                  className="input"
-                  value={this.state.message}
-                  onChange={this.onChangeMessage}></input>
-                <input
-                  className="button is-primary"
-                  type="submit"
-                  value="Save"></input>
-              </div>
-            </form>
-          </div>
+          <button onClick={ () => this.appendInput() }>
+            ADD COLUMN
+          </button>
         </section>
       </React.Fragment>
     );
   }
-}
 
+  appendInput() {
+    for(let i = 0; i < 6; i++){
+      var newInput = `input-${this.state.inputs.length}`;
+      this.setState(prevState => ({ inputs: prevState.inputs.concat([newInput]) }));
+    }
+  }
+}
 // const mapStateToProps = (state, props) => ({
 //     home: state.home,
 //   });
