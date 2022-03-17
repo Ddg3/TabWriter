@@ -1,11 +1,17 @@
 .input-container {
     display: grid;
     grid-auto-flow: column;
-    grid-template-rows: repeat(6, 1fr);
+    grid-template-columns: repeat(auto-fit, 30px);
   }
   
+  .input-column{
+    display: grid;
+    grid-template-rows:repeat(6, 1fr)
+  }
   .input-field{
     font-family: "Arial", sans-serif;
     padding: .6rem;
     text-decoration: none;
+    max-width: 30px;
+    min-width: 30px;
   }
