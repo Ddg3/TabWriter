@@ -56,7 +56,7 @@ class Tab extends React.Component {
         this.appendInput()
 
       if(this.focusText)
-        this.focusText.focus();
+        this.focusText.focus(); 
       
     }
 
@@ -64,6 +64,7 @@ class Tab extends React.Component {
       var newInput = `input-${this.state.columns.length}`;
       this.setState(prevState => ({ columns: prevState.columns.concat([newInput]) }));
     }
+    
     render() {
     return (
       <React.Fragment>
