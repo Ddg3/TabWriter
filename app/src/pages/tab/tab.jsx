@@ -64,7 +64,7 @@ class Tab extends React.Component {
       var newInput = `input-${this.state.columns.length}`;
       this.setState(prevState => ({ columns: prevState.columns.concat([newInput]) }));
     }
-    
+
     render() {
     return (
       <React.Fragment>

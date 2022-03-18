@@ -1,0 +1,13 @@
+I[A[R()+R()]]
+P[S[R()]]
+
+Declarations:
+I[]
+A[]
+A[]r
+P[]
+P[]s
+
+References:
+R()
+I()

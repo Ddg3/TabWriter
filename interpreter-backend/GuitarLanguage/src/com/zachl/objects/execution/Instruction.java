@@ -1,38 +1,45 @@
 package com.zachl.objects.execution;
 
+import com.zachl.objects.references.InstructionReference;
+import com.zachl.registries.InstructionRegistry;
+import com.zachl.registries.MemoryRegistry;
+
+import java.util.Queue;
+
 public class Instruction {
-    private interface Body{
-        void execute(InstructionHead head);
-    }
-    private enum Header {
-        Store("str"),
-        Reference("ref"),
-        Manipulate("man");
-        String tag;
-        Header(String tag){
-            this.tag = tag;
-        }
-    }
-    public Header header;
-    public Body body;
+    private static final int NAN_VALUE = -3;
     public int position;
-    private String[] params;
-    public Instruction(int position, String arg, String[] params){
-       header = Header.valueOf(arg);
-       this.position = position;
-       this.params = params;
+    public Queue<Argument> args;
+    public Instruction(Queue<Argument> args){
+       //this.position = position;
+       this.args = args;
     }
     public void execute(InstructionHead head) {
-        body.execute(head);
-        switch(header) {
-            case Store:
-                body = headtemp -> {headtemp.goToNext();};
-                break;
-            case Reference:
-                body = head1 -> {};
-                break;
-            default:
-                body = headtemp -> {headtemp.goToNext();};
+        int arithValue = NAN_VALUE;
+        for(Argument arg : args){
+            switch (arg.arg){
+                case "a":
+                    arithValue = Integer.parseInt(arg.parameters.get(0));
+                    break;
+                case "r":
+                    if(arg.parameters.size() == 0)
+                        MemoryRegistry.appendValue(arithValue);
+                    else
+                        MemoryRegistry.replaceValue(Integer.parseInt(arg.parameters.get(0)), arithValue);
+                    break;
+                case "i":
+                    if(arg.parameters.size() == 0)
+                        InstructionRegistry.appendInstruction(this);
+                    else
+                        InstructionRegistry.replaceInstruction(Integer.parseInt(arg.parameters.get(0)), this);
+                    break;
+                case "p":
+                    if(arg.parameters.size() == 0)
+                        System.out.println(arithValue);
+                    else
+                        System.out.println((char)arithValue);
+                    break;
+            }
         }
     }
 }

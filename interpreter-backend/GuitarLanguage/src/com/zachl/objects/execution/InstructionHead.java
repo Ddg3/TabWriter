@@ -5,14 +5,13 @@ import java.util.*;
 public class InstructionHead {
     private static boolean debug;
     private static Scanner debugScanner;
+
     private static int exitCode;
-
     private static int headPosition = 0;
-    private static Queue<Argument> argumentQueue;
-    private static ArrayList<Instruction> instructionQueue = new ArrayList<>();
+    private static Queue<Instruction> instructionQueue;
 
-    public InstructionHead(int enterCode, Queue<Argument> args){
-        this.argumentQueue = args;
+    public InstructionHead(int enterCode, Queue<Instruction> instructions){
+        this.instructionQueue = instructions;
         switch(enterCode){
             case 0:
                 System.out.println("Executing in Run Mode");
@@ -22,23 +21,6 @@ public class InstructionHead {
                 System.out.println("Executing in Debug Mode");
                 debug = true;
                 break;
-        }
-    }
-    public void compile(){
-        while(!argumentQueue.isEmpty()){
-            try {
-//                Argument arg = argumentQueue.poll();
-//                Instruction instruction = new Instruction(instructionQueue.size(), arg.arg, arg.parameters);
-//                instructionQueue.add(instruction);
-            }
-            catch(Exception e){
-                e.printStackTrace();
-                System.out.println("Compilation failed");
-                return;
-            }
-            if(debug){
-                debugScanner.nextLine();
-            }
         }
     }
     public void run(){

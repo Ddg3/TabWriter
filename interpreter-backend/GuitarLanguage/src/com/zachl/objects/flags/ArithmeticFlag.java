@@ -10,7 +10,7 @@ import java.util.Queue;
 
 public class ArithmeticFlag extends Flag{
     public ArithmeticFlag() {
-        super(new ChordStructure(new int[]{0, -1, 0}), new ChordStructure(new int[]{0, -2, 0}), new FlagInterpreter() {
+        super(new ChordStructure(new int[]{0, -1, 0}), new ChordStructure(new int[]{0, -2, 0, 0}), new FlagInterpreter() {
             @Override
             public Argument interpret(Queue<Chord> chords) {
                 if (chords.size() != 1 && chords.size() != 3) {
