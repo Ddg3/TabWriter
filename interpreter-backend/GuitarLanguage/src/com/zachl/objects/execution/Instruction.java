@@ -70,11 +70,13 @@ public class Instruction {
                         System.out.println((char)arithValue);
                     break;
                 case "g":
-                    if(arg.parameters.size() == 1)
+                    if(arg.parameters.size() == 1) {
                         head.goToPosition(Integer.parseInt(arg.parameters.get(0)));
+                        arg.parameters.add("-1");
+                    }
                     else{
                         int count = Integer.parseInt(arg.parameters.get(1)) - 1;
-                        if(count > 0) {
+                        if(count >= 0) {
                             head.goToPosition(Integer.parseInt(arg.parameters.get(0)));
                             arg.parameters.set(1, "" + count);
                         }

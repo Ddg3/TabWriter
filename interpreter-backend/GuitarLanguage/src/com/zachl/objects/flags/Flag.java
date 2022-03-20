@@ -22,6 +22,6 @@ public class Flag {
     }
 
     public static Flag[] allFlags(){
-        return new Flag[]{new ArithmeticFlag(), new PrintFlag(), new InstructionFlag()};
+        return new Flag[]{new ArithmeticFlag(), new PrintFlag(), new InstructionFlag(), new GoToFlag()};
     }
 }
