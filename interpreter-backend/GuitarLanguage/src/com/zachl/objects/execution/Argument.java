@@ -15,8 +15,8 @@ public class Argument {
         this.arg = arg;
         parameters.addAll(Arrays.asList(params));
     }
-    public Argument addParameter(Note param){
-        parameters.add("id at " + param.getFret());
+    public Argument addParameter(String s){
+        parameters.add(s);
         return this;
     }
 }

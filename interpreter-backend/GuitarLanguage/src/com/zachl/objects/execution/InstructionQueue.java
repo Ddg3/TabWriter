@@ -1,6 +1,7 @@
 package com.zachl.objects.execution;
 
 import java.util.LinkedList;
+import java.util.Queue;
 
 public class InstructionQueue {
     private int size = 0;
@@ -14,6 +15,11 @@ public class InstructionQueue {
     }
     public int size(){
         return size;
+    }
+    public void append(Queue<Instruction> instructionQueue) {
+        for(Instruction i : instructionQueue){
+            append(i);
+        }
     }
     public void append(Instruction instruction){
         if(root == null) {

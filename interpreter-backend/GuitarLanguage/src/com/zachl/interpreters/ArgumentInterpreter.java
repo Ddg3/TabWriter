@@ -34,38 +34,45 @@ public class ArgumentInterpreter {
         Queue<Chord> argChords = new LinkedList<>();
         Stack<Flag> flagStack = new Stack<>();
         for(Chord c : chords){
+            outerLoop:
             for(Flag f : Flag.allFlags()){
                 if(!flagStack.empty()){
-                    if(flagStack.peek().open.matches(c)){
+                    if(f.name.equalsIgnoreCase(flagStack.peek().name) && flagStack.peek().open.matches(c)){
                         flagStack.pop();
                         args.add(f.interpret(argChords));
                         argChords.clear();
-                        break;
                     }
-                    if(flagStack.peek().argClose.matches(c)){
+                    else if(f.name.equalsIgnoreCase(flagStack.peek().name) && flagStack.peek().argClose.matches(c)){
                         flagStack.pop();
                         argChords.add(c);
                         args.add(f.interpret(argChords));
                         argChords.clear();
-                        break;
                     }
-                    if(f.open.matches(c)){
+                    else if(f.open.matches(c)){
                         flagStack.push(f);
                     }
                     else{
+                        for(Flag f2 : Flag.allFlags()){
+                            if(f2.open.matches(c) || f2.argClose.matches(c))
+                                continue outerLoop;
+                        }
                         argChords.add(c);
                     }
+                    break;
                 }
                 else if (f.open.matches(c)){
                     flagStack.push(f);
                     if(!args.isEmpty()){
-                        instructions.add(new Instruction(args));
+                        final Queue<Argument> tempArgs = args;
+                        instructions.add(new Instruction(tempArgs));
                         args.clear();
                     }
                     break;
                 }
             }
         }
+        if(!args.isEmpty())
+            instructions.add(new Instruction(args));
     }
 
 }

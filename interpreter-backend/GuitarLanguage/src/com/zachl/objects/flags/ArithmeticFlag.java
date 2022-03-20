@@ -5,57 +5,60 @@ import com.zachl.objects.data.ChordStructure;
 import com.zachl.objects.execution.Argument;
 import com.zachl.objects.execution.Error;
 import com.zachl.objects.execution.InstructionHead;
+import com.zachl.objects.references.MemoryReference;
+import com.zachl.objects.references.Reference;
 
 import java.util.Queue;
 
 public class ArithmeticFlag extends Flag{
     public ArithmeticFlag() {
-        super(new ChordStructure(new int[]{0, -1, 0}), new ChordStructure(new int[]{0, -2, 0, 0}), new FlagInterpreter() {
+        super("a", new ChordStructure(new int[]{0, -1, 0}), new ChordStructure(new int[]{0, -2, 0}), new FlagInterpreter() {
             @Override
             public Argument interpret(Queue<Chord> chords) {
-                if (chords.size() != 1 && chords.size() != 3) {
+                int size = chords.size();
+                if (!(size >= 1 && size <= 4)) {
                     InstructionHead.throwError(new Error("Arithmetic Error"));
                     return null;
                 }
-                int num1 = 0, num2 = 0, lastRoot = 0;
+                String num1, num2 = "0";
+                int lastRoot;
+                int refId = -1;
                 Operator op = Operator.Plus;
-                for(int i = 0; i < chords.size(); i++){
-                    if(i == 0) {
-                        Chord c = chords.poll();
-                        num1 = evaluateNumber(c);
-                        lastRoot = c.getRoot().getFret();
-                    }
-                    if(i == 1)
-                        op = evaluateOperator(chords.poll(), lastRoot);
-                    else{
-                        num2 = evaluateNumber(chords.poll());
-                    }
+
+                Chord c = chords.poll();
+                num1 = evaluateNumber(c);
+                lastRoot = c.getRoot().getFret();
+                if(size == 2){
+                    refId = evaluateParam(chords.poll());
                 }
-                int result = num1;
-                switch(op){
-                    case Plus:
-                        result += num2;
-                        break;
-                    case Minus:
-                        result -= num2;
-                        break;
-                    case Multiply:
-                        result *= num2;
-                        break;
-                    case Divide:
-                        result /= num2;
-                        break;
+                else if(size == 3){
+                    op = evaluateOperator(chords.poll(), lastRoot);
+                    num2 = evaluateNumber(chords.poll());
                 }
-                return new Argument("a", new String[]{"" + result});
+                else if(size == 4){
+                    refId = evaluateParam(chords.poll());
+                }
+                Argument arg = new Argument("a", new String[]{num1 + " " + op.symbol + " " + num2});
+                if(refId != -1){
+                    arg = arg.addParameter("" + refId);
+                }
+                return arg;
             }
         });
     }
 
     private enum Operator{
-        Plus,
-        Minus,
-        Multiply,
-        Divide;
+        Plus("+"),
+        Minus("-"),
+        Multiply("*"),
+        Divide("/");
+        String symbol;
+        Operator(String symbol){
+            this.symbol = symbol;
+        }
+    }
+    private static int evaluateParam(Chord c){
+        return c.getFrets()[1];
     }
     private static Operator evaluateOperator(Chord c, int lastRoot){
         int interval = lastRoot - c.getRoot().getFret();
@@ -65,10 +68,15 @@ public class ArithmeticFlag extends Flag{
         }
         return Operator.values()[interval];
     }
-    private static int evaluateNumber(Chord c){
+    protected static String evaluateNumber(Chord c){
+        MemoryReference ref = Reference.getMemoryReference(c);
+        if(ref != null)
+            return ref.toString();
         int value = 0;
-        int valid = c.getFrets().length;
+        int valid = c.lastValidFret();
         for (int i = 0; i < valid; i++) {
+            if(c.getFrets()[i] == -1)
+                continue;
             if (i < 3) {
                 value *= 10;
                 value += c.getFrets()[i];
@@ -78,6 +86,6 @@ public class ArithmeticFlag extends Flag{
                 value += c.getFrets()[i] - 1;
             }
         }
-        return value;
+        return "" + value;
     }
 }

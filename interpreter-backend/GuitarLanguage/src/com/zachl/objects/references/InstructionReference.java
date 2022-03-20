@@ -7,11 +7,8 @@ import com.zachl.registries.InstructionRegistry;
 import java.sql.Ref;
 
 public class InstructionReference extends Reference {
-    protected static final ChordStructure structure = new ChordStructure(new int[]{-1,-1,-1,-2,0,0});
+    protected static final ChordStructure structure = new ChordStructure(new int[]{-1,-1,-1,-1,-2,0});
     public InstructionReference(int index){
         super(index, structure);
-    }
-    public Instruction getInstruction(){
-        return InstructionRegistry.getInstructionAt(index);
     }
 }

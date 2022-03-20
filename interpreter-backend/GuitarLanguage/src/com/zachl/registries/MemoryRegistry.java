@@ -3,7 +3,7 @@ package com.zachl.registries;
 import java.util.HashMap;
 
 public class MemoryRegistry {
-    private static HashMap<Integer, Integer> memoryRegistry = new HashMap<>();
+    private static final HashMap<Integer, Integer> memoryRegistry = new HashMap<>();
     private static int maxIndex = 0;
     public static void appendValue(int value){
         memoryRegistry.put(maxIndex, value);

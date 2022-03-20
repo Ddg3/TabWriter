@@ -18,9 +18,9 @@ public class Main {
         ArgumentInterpreter arg = new ArgumentInterpreter(file);
         Queue<Instruction> instructions = new LinkedList<>();
         arg.interpretArguments(instructions);
-        InstructionHead head = new InstructionHead(ENTER_CODE, instructions));
+        InstructionHead head = new InstructionHead(ENTER_CODE, instructions);
 
-        head.compile();
+        //head.compile();
         head.run();
     }
 }

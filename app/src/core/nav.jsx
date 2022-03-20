@@ -216,7 +216,17 @@ class Nav extends React.Component {
                 <a
                   className="button is-light"
                   onClick={this.toggleLicenseModal}>
-                  Check license
+                  Run
+                </a>
+                <a
+                  className="button is-light"
+                  onClick={this.toggleLicenseModal}>
+                  Stop 
+                </a>
+                <a
+                  className="button is-light"
+                  onClick={this.toggleLicenseModal}>
+                  Debug
                 </a>
               </div>
             </div>

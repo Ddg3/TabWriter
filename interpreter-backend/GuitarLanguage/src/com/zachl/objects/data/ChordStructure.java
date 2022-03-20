@@ -9,8 +9,6 @@ public class ChordStructure {
     public HashMap<Integer, Integer> requiredFrets = new HashMap<>(), paramFrets = new HashMap<>();
     public ChordStructure(int[] frets){
         for(int i = 0; i < frets.length; i++){
-            if(frets[i] == -1)
-                continue;
             if(frets[i] == -2) {
                 paramFrets.put(i, frets[i]);
                 continue;
@@ -20,7 +18,7 @@ public class ChordStructure {
     }
     public boolean matches(Chord c){
         for(Map.Entry<Integer, Integer> e: requiredFrets.entrySet()){
-            if(c.noteAtString(e.getKey()).fret != e.getValue()){
+            if(e.getValue() != c.getFrets()[e.getKey()]){
                 return false;
             }
         }

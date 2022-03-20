@@ -8,10 +8,10 @@ public class InstructionHead {
 
     private static int exitCode;
     private static int headPosition = 0;
-    private static Queue<Instruction> instructionQueue;
+    private static final InstructionQueue instructionQueue = new InstructionQueue();
 
     public InstructionHead(int enterCode, Queue<Instruction> instructions){
-        this.instructionQueue = instructions;
+        instructionQueue.append(instructions);
         switch(enterCode){
             case 0:
                 System.out.println("Executing in Run Mode");
@@ -26,7 +26,8 @@ public class InstructionHead {
     public void run(){
         while(headPosition < instructionQueue.size()){
             try {
-                instructionQueue.get(headPosition).execute(this);
+                instructionQueue.instructionAt(headPosition).execute(this);
+                goToNext();
             }
             catch(Exception e){
                 e.printStackTrace();

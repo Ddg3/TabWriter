@@ -32,19 +32,21 @@ public class Chord {
             tempIntervals[i] = interval;
             i++;
         }
-        outerLoop:
-        for(Entry<String, int[]> entry : Constants.CHORDS.entrySet()){
-            for(i = 0; i < entry.getValue().length; i++){
-                if(tempIntervals[i] != entry.getValue()[i])
-                    continue outerLoop;
+        if(tempIntervals.length > 0) {
+            outerLoop:
+            for (Entry<String, int[]> entry : Constants.CHORDS.entrySet()) {
+                for (i = 0; i < entry.getValue().length; i++) {
+                    if (tempIntervals[i] != entry.getValue()[i])
+                        continue outerLoop;
+                }
+                name = entry.getKey();
             }
-            name = entry.getKey();
-        }
-        if(name.equalsIgnoreCase("")) {
-            if(hasOctave)
-                name = "Octave";
-            else
-                name = Arrays.toString(tempIntervals);
+            if (name.equalsIgnoreCase("")) {
+                if (hasOctave)
+                    name = "Octave";
+                else
+                    name = Arrays.toString(tempIntervals);
+            }
         }
     }
 
@@ -68,6 +70,14 @@ public class Chord {
     }
     public int[] getFrets(){
         return frets;
+    }
+    public int lastValidFret(){
+        int max = 0;
+        for(int i = 0; i < frets.length; i++){
+            if(frets[i] != -1)
+                max = i + 1;
+        }
+        return max;
     }
     public Note getRoot(){
         return root;

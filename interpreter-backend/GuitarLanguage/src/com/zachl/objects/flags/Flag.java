@@ -9,8 +9,10 @@ import java.util.Queue;
 
 public class Flag {
     public ChordStructure open, argClose;
+    public String name;
     private FlagInterpreter interpreter;
-    public Flag(ChordStructure open, ChordStructure argClose, FlagInterpreter interpreter){
+    public Flag(String name, ChordStructure open, ChordStructure argClose, FlagInterpreter interpreter){
+        this.name = name;
         this.open = open;
         this.argClose = argClose;
         this.interpreter = interpreter;
@@ -20,6 +22,6 @@ public class Flag {
     }
 
     public static Flag[] allFlags(){
-        return new Flag[]{new ArithmeticFlag()};
+        return new Flag[]{new ArithmeticFlag(), new PrintFlag(), new InstructionFlag()};
     }
 }
